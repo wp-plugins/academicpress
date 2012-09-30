@@ -157,7 +157,9 @@ class Acp_Bib_Style_Chicago implements Acp_Bib_IStyle {
 				$_out .= " doi: $doi.";
 			if (!empty($url)) {
 				$date = !empty($year_access) ? (!empty($month_access) ? (!empty($day_access) ? "$month_access $day_access, $year_access" : "$month_access $year_access") : $year_access) : '';
-				$_out .= " "._x('Retrieved','url','academicpress')." $date "._x('from','url','academicpress')." ".(strlen($publisher)>0 ? "$publisher: " : '')."$url.";
+				if (!empty($publisher))
+					$publisher = "{$args['publisher']}: ";
+				$_out .= " "._x('Retrieved','url','academicpress')." $date "._x('from','url','academicpress')." $publisher$url.";
 			}
 		}
 		
@@ -168,11 +170,11 @@ class Acp_Bib_Style_Chicago implements Acp_Bib_IStyle {
 		if (!isset($args['level']) || empty($args['level']))
 			$args['level'] = '3';
 		$t = "<h{$args['level']}>". $args['title'] ."</h{$args['level']}>";
-		$t .= '<ol>';
-		$collection->sortBy(array('year'=>SORT_DESC, 'author'=>SORT_ASC));
+		$t .= '<ul>';
+		$collection->sortBy(array('author'=>SORT_ASC, 'title'=>SORT_ASC, 'year'=>SORT_DESC));
 		foreach ($collection as $c)
-			$t .= '<li>'. $this->getCitationFormat($c) .'</li>';
-		$t .= '</ol>';
+			$t .= '<li style="text-indent:-30px; padding: 3px 0 3px 30px">'. $this->getCitationFormat($c) .'</li>';
+		$t .= '</ul>';
 		return $t;
 	}
 }

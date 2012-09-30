@@ -9,6 +9,7 @@ class Acp {
 		add_action('admin_menu', 'Acp::initAdminMenu');
 		add_action('wp_ajax_academicpress', 'Acp::ajaxHandler');
 		
+		Acp::registerBibStyle('acp', 'Acp_Bib_Style_Acp', self::$api .'Acp/Bib/Style/Acp.php');
 		Acp::registerBibStyle('apa', 'Acp_Bib_Style_Apa', self::$api .'Acp/Bib/Style/Apa.php');
 		Acp::registerBibStyle('chicago', 'Acp_Bib_Style_Chicago', self::$api .'Acp/Bib/Style/Chicago.php');
 		Acp::registerBibStyle('harvard', 'Acp_Bib_Style_Harvard', self::$api .'Acp/Bib/Style/Harvard.php');
@@ -80,7 +81,7 @@ class Acp {
 	
 	/* MISC */	
 	public static function version() {
-		return '3.0';
+		return '1.1';
 	}
 	
 	public static function author() {
@@ -88,7 +89,7 @@ class Acp {
 	}
 	
 	public static function website() {
-		return 'http://academic-press.benjaminsommer.com';
+		return 'http://academicpress.benjaminsommer.com';
 	}
 	
 	private static $api;	

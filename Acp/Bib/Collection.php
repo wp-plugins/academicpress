@@ -42,7 +42,7 @@ class Acp_Bib_Collection implements Countable, Iterator {
 		else if (isset($args['reference']))
 			return $args['reference'];
 		else 
-			return md5(array_merge($args));
+			return md5(implode('',$args));
 	}
 	
 	/* Set operations */
