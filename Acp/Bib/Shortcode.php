@@ -311,7 +311,7 @@ class Acp_Bib_Shortcode {
 	
 	/* State machine simulation */
 	private static $datascope = 'default';
-	private static $bibstyle = 'apa';
+	private static $bibstyle = 'acp';
 	private static $visible = true;
 	private static $switchtarget = false;
 }
@@ -400,6 +400,12 @@ Display Table of Bibliography
 [acp author="John Mesh; Jack Sparrow" title="Secrets of Black Perl" id="sparrow2012" year="2010" /]
 [acp author="Hayley Iben; Mark Meyer; Lena Petrovic; Olivier Soares; John Anderson; Andrew Witkin" title="Artistic Simulation of Curly Hair" year="2012" media="book" id="hayley2012-1" /]
 [acp author="Matthias Niessner, Charles Loop, Mark Meyer, Tony DeRose" title="Feature Adaptive GPU Rendering of Catmull-Clark Subdivision Surfaces" year="2012" media="paper" id="niessner2012-1"]{author} ({title})[/acp].
+
+[acp use_bibstyle="acp" /]
+[acp author="John Mesh; Jack Sparrow" title="Secrets of Black Perl" id="sparrow2012" year="2010" /]
+[acp author="Hayley Iben; Mark Meyer; Lena Petrovic; Olivier Soares; John Anderson; Andrew Witkin" title="Artistic Simulation of Curly Hair" year="2012" media="newspaper" title_periodical="NY Times" id="hayley2012-1" /]
+[acp author="Matthias Niessner, Charles Loop, Mark Meyer, Tony DeRose" title="Feature Adaptive GPU Rendering of Catmull-Clark Subdivision Surfaces" year="2012" media="paper" id="niessner2012-1"]{author} ({title})[/acp].
+[acp title="Polygon Mesh Processing" media="web" url="http://en.wikipedia.org/polygon-mesh-processing" year="2012"  doi="10.1023/A:1007993819750" author="ACM SIGGRAPH" /]
 
 
 */

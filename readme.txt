@@ -4,7 +4,7 @@ Donate link: http://academicpress.benjaminsommer.com/
 Tags: academic, academia, further reading, references, bibliography, table of bibliographies, table of footnotes, citation, footnotes, MLA, APA, Chicago, Turabian, Harvard, bibtex, ris, endnote, export, import
 Requires at least: 2.8
 Tested up to: 3.4.2
-Stable tag: 1.0
+Stable tag: 1.1
 License: CC GNU GPL 2.0 license
 
 Turn your Blog into an academic publishing site
@@ -83,6 +83,11 @@ Please read the tutorials: http://academicpress.benjaminsommer.com/tutorials/
 VirtualBox: http://academicpress.benjaminsommer.com/files/2012/09/Screenshot-from-2012-09-24-094943.png
 
 == Changelog ==
+
+= 1.1 =
+* AcademicPress now comes with new defualt, built-in bibliographic style (acp), an optimized version for Web users.
+* Updated Bibliographic Styles: Harvard, Turabian.
+* All bibliographic styles are content-aware: citations are always nicely formatted, even if attributes are missing.
 
 = 1.0 =
 * Added Pre- and Postprocessors

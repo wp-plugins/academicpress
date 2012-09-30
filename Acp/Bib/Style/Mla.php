@@ -52,8 +52,8 @@ class Acp_Bib_Style_Mla implements Acp_Bib_IStyle {
 		else if (sizeof($a) > 2)
 			$author = "{$a[0]} et.al.";
 		
-		if (!empty($title))
-			$title = ", <em>$title</em>";
+		//if (!empty($title))
+		//	$title = ", <em>$title</em>";
 		if (!empty($title_periodical))
 			$title_periodical = ", <em>$title_periodical</em>";
 		if (!empty($issue))
@@ -169,16 +169,22 @@ class Acp_Bib_Style_Mla implements Acp_Bib_IStyle {
 				break;
 			case 'video':
 				$_out = "$author dir. \"$title\"$title_periodical$publisher$date. ".__('Web','netblog').". $url$dateaccess.";
+				$url = '';
 				break;
 			case 'powerpoint': 
 			case 'ppt':
 				$_out = "$author \"$title\"$publisher$date. <em>".__('Microsoft PowerPoint','netblog')."</i> "._x('file','citedatafile','netblog').". $url$dateaccess.";
+				$url = '';
 				break;
 			case 'eric':
 				if (!empty($doi))
 					$doi = " ($doi)";
 				$_out = "$author \"$title\"$publisher_place$publisher$date. <i>ERIC</i>. ".__('Web','netblog').". $url$dateaccess$doi.";
+				$url = '';
+				$doi = '';
 	        default:
+	        	if (!empty($title))
+	        		$title = ", \"$title\"";
 	        	if(!empty($author)) {
 	        		$_out = "$author$date$title$publisher_place$publisher.";
 	        	} else
@@ -189,7 +195,9 @@ class Acp_Bib_Style_Mla implements Acp_Bib_IStyle {
 				$_out .= " doi: $doi.";
 			if (!empty($url)) {
 				$date = !empty($year_access) ? (!empty($month_access) ? (!empty($day_access) ? "$month_access $day_access, $year_access" : "$month_access $year_access") : $year_access) : '';
-				$_out .= " "._x('Retrieved','url','academicpress')." $date "._x('from','url','academicpress')." ".(strlen($publisher)>0 ? "$publisher: " : '')."$url.";
+				if (!empty($publisher))
+					$publisher = "{$args['publisher']}: ";
+				$_out .= " "._x('Retrieved','url','academicpress')." $date "._x('from','url','academicpress')." $publisher$url.";
 			}
 		}
 		
@@ -200,11 +208,11 @@ class Acp_Bib_Style_Mla implements Acp_Bib_IStyle {
 		if (!isset($args['level']) || empty($args['level']))
 			$args['level'] = '3';
 		$t = "<h{$args['level']}>". $args['title'] ."</h{$args['level']}>";
-		$t .= '<ol>';
-		$collection->sortBy(array('year'=>SORT_DESC, 'author'=>SORT_ASC));
+		$t .= '<ul>';
+		$collection->sortBy(array('author'=>SORT_ASC, 'title'=>SORT_ASC, 'year'=>SORT_DESC));
 		foreach ($collection as $c)
-			$t .= '<li>'. $this->getCitationFormat($c) .'</li>';
-		$t .= '</ol>';
+			$t .= '<li style="text-indent:-30px; padding: 3px 0 3px 30px">'. $this->getCitationFormat($c) .'</li>';
+		$t .= '</ul>';
 		return $t;
 	}
 }
