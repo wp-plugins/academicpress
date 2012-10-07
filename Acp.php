@@ -81,7 +81,7 @@ class Acp {
 	
 	/* MISC */	
 	public static function version() {
-		return '1.1';
+		return '1.1.1';
 	}
 	
 	public static function author() {

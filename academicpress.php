@@ -5,7 +5,7 @@
 	Plugin URI: http://academicpress.benjaminsommer.com
 	Description: Turn your Blog into an <strong>academic publishing site</strong>. <a href="options-general.php?page=academicpress">AcademicPress Settings</a>
 	Author: Benjamin Sommer
-	Version: 1.1
+	Version: 1.1.1
 	Author URI: http://benjaminsommer.com
 	License: CC GNU GPL 2.0 license
 	Text Domain: academicpress

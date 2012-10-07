@@ -94,6 +94,8 @@ class Acp_Bib_Shortcode {
 			self::$switchtarget = filter_var($args['use_switchtarget'], FILTER_VALIDATE_BOOLEAN);
 			unset($args['use_switchtarget']);
 		}
+		global $wp_query;
+		$this->current_postid = $wp_query->post->ID;
 	}
 
 	private function doUnaryOp(&$args) {
