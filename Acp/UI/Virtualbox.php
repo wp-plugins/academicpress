@@ -4,7 +4,7 @@ class Acp_UI_Virtualbox {
 	public static function init() {
 		$types = get_post_types(array('public'=>true));
 		foreach ($types as $t)	
-			add_meta_box('acp-virtualbox', 'Academic Press VirtualBox', array('Acp_UI_Virtualbox','display'), $t, 'advanced', 'high');		
+			add_meta_box('acp-virtualbox', 'AcademicPress VirtualBox', array('Acp_UI_Virtualbox','display'), $t, 'advanced', 'high');		
 	}
 	
 	public function display() {

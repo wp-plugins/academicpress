@@ -26,6 +26,11 @@ class Acp_UI_Settings {
 		echo '<h2>AcademicPress Settings</h2>';		
 		echo '<form action="" method="post">';
 		
+		echo '<h2 class="nav-tab-wrapper">
+					<a class="nav-tab nav-tab-active" name="preprocessor" style="cursor:pointer"> Preprocessors </a>
+					<a class="nav-tab" name="postprocessor" style="cursor:pointer"> Postprocessors </a>
+				</h2>';
+		
 		/*
 		echo '<h3>General</h3>';
 		$g = new Acp_UI_Table();
@@ -67,22 +72,37 @@ class Acp_UI_Settings {
 		if (isset($types['attachment']))
 			unset($types['attachment']);
 		
-		echo '<h3>Script Preprocessors</h3>';
+		echo '<div class="changelog point-releases" id="preprocessor">';
 		foreach ($types as $k=>$t)
-			echo "<p>Post type: ".$t->labels->name."<br />".
+			echo "<p><strong>Execute before ".$t->labels->name."</strong><br />".
 				  '<textarea name="scripts[preprocessor]['.$k.']" style="width:100%; max-width:800px; height:150px;">'.
 					(isset($scripts['preprocessor'][$k]) ? $scripts['preprocessor'][$k] : '').
 				  '</textarea></p>';
+		echo '</div>';
 		
-		echo '<h3>Script Postprocessors</h3>';
+		echo '<div class="changelog point-releases" style="display:none" id="postprocessor">';
 		foreach ($types as $k=>$t)
-			echo "<p>Post type: ".$t->labels->name."<br />".
+			echo "<p><strong>Execute after ".$t->labels->name."</strong><br />".
 				  '<textarea name="scripts[postprocessor]['.$k.']" style="width:100%; max-width:800px; height:150px;">'.
 					(isset($scripts['postprocessor'][$k]) ? $scripts['postprocessor'][$k] : '').
 				  '</textarea></p>';
+		echo '</div>';
 		
 		echo '<input type="submit" name="save" value="Save Changes" class="button-primary" />';
 		echo '</form>';
 		echo '</div>';
+		
+		echo "<script>
+			jQuery('.nav-tab-wrapper a.nav-tab').click(function() {
+				var next = jQuery(this);
+				var current = next.parent().find('a.nav-tab-active');
+				if (current.attr('name') != next.attr('name')) {
+					current.removeClass('nav-tab-active');
+					jQuery('#'+ current.attr('name')).hide();
+					jQuery('#'+ next.attr('name')).show();
+					next.addClass('nav-tab-active');
+				}
+			});
+		</script>";
 	}
 }

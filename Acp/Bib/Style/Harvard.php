@@ -38,7 +38,8 @@ class Acp_Bib_Style_Harvard implements Acp_Bib_IStyle {
 		
 		$date = strlen($year)>0 ? (strlen($month)>0 ? 
 				(strlen($day)>0 ? "$year, $month $day" : "$year, $month") : $year) : 'n.d.';
-		$date = " ($date)";
+		$date = " $date";
+		$dateaccess = !empty($year_access) ? (!empty($month_access) ? (!empty($day_access) ? "$month_access $day_access, $year_access" : "$month_access $year_access") : $year_access) : '';
 		
 		$asep = ';';
 		if (str_word_count($author) > 3 && strpos($author,',') !== false && strpos($author,';') === false)
@@ -48,64 +49,104 @@ class Acp_Bib_Style_Harvard implements Acp_Bib_IStyle {
 			$author = "{$a[0]} and {$a[1]}";
 		else if (sizeof($a) > 2)
 			$author = "{$a[0]} et.al.";
-		
-		if (!empty($title))
-			$title = ", <em>$title</em>";
-		if (!empty($title_periodical))
-			$title_periodical = ", (<em>$title_periodical</em>)";
-		if (!empty($issue))
-			$issue = "($issue)";
+
 		
 		if (!empty($publisher_place))
-			$publisher_place = ". $publisher_place";
-		if (!empty($publisher) && !empty($publisher_place))
-			$publisher = ": $publisher";
-		else if (!empty($publisher))
-			$publisher = ". $publisher";
+			$publisher_place = ", $publisher_place";
+		if (!empty($publisher))
+			$publisher = ", $publisher";
+		if (!empty($initials))
+			$initials = " $initials";
+		if (!empty($initials) || !empty($date))
+			$initials = ",$initials";
+		if (!empty($volume))
+			$volume = ", $volume";
+		if (!empty($pages))
+			$pages = ", $pages";
+		if (!empty($issue))
+			$issue = ", $issue";
+		if (!empty($award))
+			$award = ", $award";
+		if (!empty($url))
+			$url = ", <$url>";
 		
 		switch($media){
 			case 'book': 
-				if($author!='') 
-					$_out = "$author, $initials $year, <i>$title</i>, $volume, $publisher, $publisher_place."; 
+				if(!empty($author)) 
+					$_out = "$author$initials$date, <em>$title</em>$volume$publisher$publisher_place."; 
 				else 
-					$_out = "<i>$title</i> $year, $volume, $publisher, $publisher_place.";
+					$_out = "<em>$title</em>$date$volume$publisher$publisher_place.";
 				break;
 			case 'booksection':
 				if($author!='') 
-					$_out = "$author, $initials $year, '$title', in $book_author (ed.), <i>$book_title</i>, $volume, $publisher, $publisher_place, $pages.";
+					$_out = "$author$initials$date, '$title', in $book_author (ed.), <em>$book_title</em>$volume$publisher$publisher_place$pages.";
 				else 
-					$_out = "'$title' $year, in $book_author (ed.), <i>$book_title</i>, $volume, $publisher, $publisher_place, $pages."; break;
+					$_out = "'$title'$date, in $book_author (ed.), <em>$book_title</em>$volume$publisher$publisher_place$pages."; break;
 			case 'conference':
-				$_out = "$author, $initials $year, '$title', <i>$title_periodical</i>, $publisher, $publisher_place, $pages". (strlen($url)>0 ? ", $month_access $day_access, $year_access, <$url>." : "."); break;				
+				if (!empty($dateaccess))
+					$dateaccess = ", $dateaccess";
+				$_out = "$author$initials$date, '$title', <em>$title_periodical</em>$publisher$publisher_place$pages$dateaccess$url.";
+				$url = '';
+				break;
 			case 'journal': 
-				$_out = "$author, $initials $year, '$title', <i>$title_periodical</i>, $volume, $issue, $pages". (strlen($url)>0 ? ", "._x('viewed','citeurl','netblog')." $month_access $day_access, $year_access, <$url>." : ".");;
+				if (!empty($dateaccess))
+					$dateaccess = ' '. _x('viewed','citeurl','academicpress') ." $dateaccess";
+				$_out = "$author$initials$date, '$title', <em>$title_periodical</em>$volume$issue$pages$dateaccess$url.";
+				$url = '';
 				break;
 			case 'thesis': 
-				$_out = "$author, $initials $year, '$title', $award, $publisher, $publisher_place.";
+				$_out = "$author$initials$date, '$title'$award$publisher$publisher_place.";
 				break;
 			case 'report': 
 			case 'standard':
-				$_out = "$author, $initials $year, <i>$title</i>, ". (strlen($issue)>0 ? "$issue, ": "") ."$publisher, $publisher_place". (strlen($url)>0 ? ", "._x('viewed','citeurl','netblog')." $month_access $day_access, $year_access, <$url>." : ".");;
+				if (!empty($dateaccess))
+					$dateaccess = ' '. _x('viewed','citeurl','academicpress') ." $dateaccess";
+				$_out = "$author$initials$date, <em>$title</em>$issue$publisher$publisher_place$dateaccess$url.";
+				$url = '';
 				break;
 			case 'magazine': 
 			case 'newspaper':
-				if($author!='') 
-					$_out = "$author, $initials $year, '$title', <i>$title_periodical</i> $day $month, $pages."; 
+				if (!empty($year))
+					$year = " $year";
+				if (!empty($day))
+					$day = " $day";
+				if (!empty($month))
+					$month = " $month";
+				if (!empty($title_periodical))
+					$title_periodical = ", <em>$title_periodical</em>";
+				if(!empty($author))
+					$_out = "$author$initials$year, '$title'$title_periodical$day$month$pages."; 
 				else 
-					$_out = "'$title' $year, <i>$title_periodical</i> $day $month, $pages."; break;	
+					$_out = "'$title'$year$title_periodical$day$month$pages."; 
+				break;	
 			case 'website':
 			case 'web':
-				if($author!='') 
-					$_out = "$author, $year, <i>$title</i>, ". (strlen($special_entry)>0 ? "$special_entry, ":"") ."$day $month, ".(strlen($publisher)>0 ? "$publisher, ":"").""._x('viewed','citeurl','netblog')." $day_access $month_access $year_access, <$url>.";
-				else 
-					$_out = "<i>$title</i> $year, ". (strlen($special_entry)>0 ? "$special_entry, ":"") ."$day $month, ".(strlen($publisher)>0 ? "$publisher, ":"").""._x('viewed','citeurl','netblog')." $day_access $month_access $year_access, <$url>."; break;
+				if (!empty($year))
+					$year = " $year";
+				if (!empty($day))
+					$day = " $day";
+				if (!empty($month))
+					$month = " $month";
+				if (!empty($special_entry))
+					$special_entry = ", $special_entry";
+				if (!empty($dateaccess))
+					$dateaccess = ' '. _x('viewed','citeurl','academicpress') ." $dateaccess";
+				if(!empty($author)) {
+					if (!empty($year))
+						$year = ",$year"; 
+					$_out = "$author$year, <em>$title</em>$special_entry$day$month$publisher$dateaccess$url.";
+				} else 
+					$_out = "<em>$title</em> $year$special_entry$day$month$publisher$dateaccess$url.";
+				$url = '';
 			case 'patent': 
-				$_out = "$author, $initials $year, <i>$title</i>, $publisher_place "._x('Patent','cite','netblog')." $patent_number";
+				$_out = "$author$initials$date, <em>$title</em>$publisher_place. "._x('Patent','cite','netblog')." $patent_number.";
 				break;
 			case 'map':
-				$_out = "$author $year, <i>$title</i>, ". (strlen($issue)>0 ? "$issue, ": "") ."$publisher, $publisher_place.";
+				$_out = "$author$date, <em>$title</em>$issue$publisher$publisher_place.";
 				break;
-	        default:
+	        default:		
+	        	if (!empty($title))
+					$title = ", <em>$title</em>";
 	        	if(!empty($author)) {
 	        		$_out = "$author$date$title$publisher_place$publisher.";
 	        	} else
@@ -116,7 +157,9 @@ class Acp_Bib_Style_Harvard implements Acp_Bib_IStyle {
 				$_out .= " doi: $doi.";
 			if (!empty($url)) {
 				$date = !empty($year_access) ? (!empty($month_access) ? (!empty($day_access) ? "$month_access $day_access, $year_access" : "$month_access $year_access") : $year_access) : '';
-				$_out .= " "._x('Retrieved','url','academicpress')." $date "._x('from','url','academicpress')." ".(strlen($publisher)>0 ? "$publisher: " : '')."$url.";
+				if (!empty($publisher))
+					$publisher = "{$args['publisher']}: ";
+				$_out .= " "._x('Retrieved','url','academicpress')." $date "._x('from','url','academicpress')." $publisher$url.";
 			}
 		}
 		
