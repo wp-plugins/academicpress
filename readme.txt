@@ -4,7 +4,7 @@ Donate link: http://academicpress.benjaminsommer.com/
 Tags: academic, academia, further reading, references, bibliography, table of bibliographies, table of footnotes, citation, footnotes, MLA, APA, Chicago, Turabian, Harvard, bibtex, ris, endnote, export, import
 Requires at least: 2.8
 Tested up to: 3.4.2
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: CC GNU GPL 2.0 license
 
 Turn your Blog into an academic publishing site
@@ -83,6 +83,9 @@ Please read the tutorials: http://academicpress.benjaminsommer.com/tutorials/
 VirtualBox: http://academicpress.benjaminsommer.com/files/2012/09/Screenshot-from-2012-09-24-094943.png
 
 == Changelog ==
+
+= 1.1.2 =
+* Fixed inline format of footnotes: when inserting html tags (e.g. links) into footnotes, the inline format showed showed some html tags. This has been fixed.
 
 = 1.1.1 =
 * Fixed table of bibliography: previously, citations of all other posts had been displayed when using post lists

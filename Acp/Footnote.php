@@ -3,7 +3,7 @@
 class Acp_Footnote {
 	public static function getInlineFormat($args, $number) {
 		$k = md5($args['tag:content']);
-		return '<a href="#note'.$k.'" name="'.$k.'" title="'.$args['tag:content'].'" style="text-decoration:none"><sup>['. $number .']</sup></a> ';
+		return '<a href="#note'.$k.'" name="'.$k.'" title="'.strip_tags($args['tag:content']).'" style="text-decoration:none"><sup>['. $number .']</sup></a> ';
 	}
 	
 	public static function getTable($collection, $args) {
