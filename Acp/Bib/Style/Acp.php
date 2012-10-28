@@ -76,7 +76,7 @@ class Acp_Bib_Style_Acp implements Acp_Bib_IStyle {
 				if (!empty($pages))
 					$pages = ", $pages";
 				if (!empty($volume))
-					$volume = "<i>$volume</i>";
+					$volume = "<em>$volume</em>";
 				$_out = "$author$date$title$title_periodical, $volume$issue$pages."; break;
 			case 'newspaper':
 				if (!empty($pages))
@@ -88,14 +88,14 @@ class Acp_Bib_Style_Acp implements Acp_Bib_IStyle {
 		        if(!empty($author)) 
 		            $_out = "$author$date$title$publisher_place$publisher."; 
 		        else 
-	            	$_out = "$title$date$publisher_place$publisher.";
+	            	$_out = "<em>{$args['title']}</em>$date$publisher_place$publisher.";
 		        break;
 	        case 'booksection': 
-	        	$_out = "$author$date$title ". vsprintf( _x('In %s','citebooksection','academicpress'), $book_author) .", <i>$book_title</i> ($pages)$publisher_place$publisher."; break;
+	        	$_out = "$author$date$title. ". vsprintf( _x('In %s','citebooksection','academicpress'), $book_author) .", <em>$book_title</em> ($pages)$publisher_place$publisher."; break;
 	        case 'encyclopedia': 
-	        	$_out = "$author$date$title ". vsprintf( _x('In %s','citebooksection','academicpress'), $book_author) .", <i>$book_title</i> ($volume, $pages)$publisher_place$publisher."; break;
+	        	$_out = "$author$date$title. ". vsprintf( _x('In %s','citebooksection','academicpress'), $book_author) .", <em>$book_title</em> ($volume, $pages)$publisher_place$publisher."; break;
 	        case 'eric': 
-	        	$_out = "$author$date$title ".__('Retrieved from ERIC databse.','academicpress')." ($doi)"; 
+	        	$_out = "$author$date$title. ".__('Retrieved from ERIC database.','academicpress')." ($doi)"; 
 	        	$doi=''; 
 	        	break;
 		    case 'website': 
@@ -109,20 +109,20 @@ class Acp_Bib_Style_Acp implements Acp_Bib_IStyle {
 		           $_out = "$author$date$title.";
 		        break;
 	        case 'wiki': 
-	        	$_out = "<em>{$args['title']}</em>$date. "._x('In <i>Wikipedia</i>','cite','academicpress')."."; 
+	        	$_out = "<em>{$args['title']}</em>$date. "._x('In <em>Wikipedia</em>','cite','academicpress')."."; 
 	        	break;
 	        case 'blog': 
 	        	$_out = "$author$date$title."; 
 	        	break;
 	        case 'blog': 
-	        	$_out = "$author$date$title ["._x('Weblog message','academicpress')."]."; 
+	        	$_out = "$author$date$title. ["._x('Weblog message','academicpress')."]."; 
 	        	break;
 	        case 'video':
-	        	 $_out = "$author$date$title ["._x('Video file','academicpress')."]."; 
+	        	 $_out = "$author$date$title. ["._x('Video file','academicpress')."]."; 
 	        	 break;
 	        case 'powerpoint': 
 	        case 'ppt':  
-	        	$_out = "$author$date$title ["._('PowerPoint slides','academicpress')."]."; 
+	        	$_out = "$author$date$title. ["._('PowerPoint slides','academicpress')."]."; 
 	        	break;
 	        default:
 	        	if(!empty($author)) {
@@ -138,7 +138,7 @@ class Acp_Bib_Style_Acp implements Acp_Bib_IStyle {
 				$_out .= " "._x('Retrieved','url','academicpress')." $date "._x('from','url','academicpress')."$publisher <a href=\"$url\">$url</a>.";
 			}
 			if (!empty($doi))
-				$_out .= " DOI: $doi.";
+				$_out .= " DOI: <a href=\"$doi\">$doi</a>.";
 		}
 		
 		return $_out;
